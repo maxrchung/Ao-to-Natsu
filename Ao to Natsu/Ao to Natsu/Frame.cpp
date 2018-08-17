@@ -11,15 +11,10 @@ Frame::Frame(const std::string& pImage, const std::string& pLyric, const int pTi
 		left = Storyboard::CreateSprite("@");
 		right = Storyboard::CreateSprite("@");
 		if (hasLyric()) {
+			textBorder = Storyboard::CreateSprite("@", Vector2::Zero, Layer::Foreground, Origin::TopLeft);
 			textBackground = Storyboard::CreateSprite("!", Vector2::Zero, Layer::Foreground, Origin::TopLeft);
 			text = Storyboard::CreateSprite(lyric, Vector2::Zero, Layer::Foreground, Origin::TopLeft);
-			textTop = Storyboard::CreateSprite("@", Vector2::Zero, Layer::Foreground, Origin::TopLeft);
-			textBot = Storyboard::CreateSprite("@", Vector2::Zero, Layer::Foreground, Origin::TopLeft);
-			textLeft = Storyboard::CreateSprite("@", Vector2::Zero, Layer::Foreground, Origin::TopLeft);
-			textRight = Storyboard::CreateSprite("@", Vector2::Zero, Layer::Foreground, Origin::TopLeft);
 			findPNGDimensions(textWidth, textHeight);
-			// Account for small font spacing
-			textHeight -= 5;
 		}
 	}
 }
@@ -47,12 +42,9 @@ void Frame::fade(const int startTime, const int endTime, const float startFade, 
 		left->Fade(startTime, endTime, startFade, endFade);
 		right->Fade(startTime, endTime, startFade, endFade);
 		if (hasLyric()) {
+			textBorder->Fade(startTime, endTime, startFade, endFade);
 			textBackground->Fade(startTime, endTime, startFade, endFade);
 			text->Fade(startTime, endTime, startFade, endFade);
-			textTop->Fade(startTime, endTime, startFade, endFade);
-			textBot->Fade(startTime, endTime, startFade, endFade);
-			textLeft->Fade(startTime, endTime, startFade, endFade);
-			textRight->Fade(startTime, endTime, startFade, endFade);
 		}
 	}
 }
@@ -73,14 +65,10 @@ void Frame::move(const int startTime, const int endTime, const Vector2& startPos
 		right->Move(startTime, endTime, startPosition + Vector2(width / 2.0f, 0) , endPosition + Vector2(width / 2.0f, 0));
 		if (hasLyric()) {
 			const auto backgroundOffset = Vector2(-width / 2.0f, height / 2.0f) + Vector2(textMargin, -textMargin);
+			textBorder->Move(startTime, endTime, startPosition + backgroundOffset + Vector2(-1, 1), endPosition + backgroundOffset + Vector2(-1, 1));
 			textBackground->Move(startTime, endTime, startPosition + backgroundOffset, endPosition + backgroundOffset);
 			const auto textOffset = backgroundOffset + Vector2(textPadding, -textPadding);
 			text->Move(startTime, endTime, startPosition + textOffset, endPosition + textOffset);
-			const auto textScale = Vector2(textWidth * textScaleFactor + textPadding * 2, textHeight * textScaleFactor + textPadding * 2);
-			textTop->Move(startTime, endTime, startPosition + backgroundOffset, endPosition + backgroundOffset);
-			textBot->Move(startTime, endTime, startPosition + backgroundOffset + Vector2(0, -textScale.y), endPosition + backgroundOffset + Vector2(0, -textScale.y));
-			textLeft->Move(startTime, endTime, startPosition + backgroundOffset, endPosition + backgroundOffset);
-			textRight->Move(startTime, endTime, startPosition + backgroundOffset + Vector2(textScale.x, 0), endPosition + backgroundOffset + Vector2(textScale.x, 0));
 		}
 	}
 }
@@ -93,12 +81,9 @@ void Frame::scale(const int startTime) const {
 		right->ScaleVector(startTime, startTime, Vector2(1, height + 1), Vector2(1, height + 1));
 		if (hasLyric()) {
 			const auto scale = Vector2(textWidth * textScaleFactor + textPadding * 2, textHeight * textScaleFactor + textPadding * 2);
-			textBackground->ScaleVector(startTime, startTime, scale + Vector2(0.5f,0.5f), scale + Vector2(0.5f,0.5f));
+			textBorder->ScaleVector(startTime, startTime, scale + Vector2(2, 2), scale + Vector2(2, 2));
+			textBackground->ScaleVector(startTime, startTime, scale, scale);
 			text->Scale(startTime, startTime, textScaleFactor, textScaleFactor);
-			textTop->ScaleVector(startTime, startTime, Vector2(scale.x + 1, 1), Vector2(scale.x + 1, 1));
-			textBot->ScaleVector(startTime, startTime, Vector2(scale.x + 1, 1), Vector2(scale.x + 1, 1));
-			textLeft->ScaleVector(startTime, startTime, Vector2(1, scale.y + 1), Vector2(1, scale.y + 1));
-			textRight->ScaleVector(startTime, startTime, Vector2(1, scale.y + 1), Vector2(1, scale.y + 1));
 		}
 	}
 }

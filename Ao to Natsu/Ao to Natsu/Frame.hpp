@@ -23,7 +23,7 @@ private:
 	static constexpr float width = 0.3f * 1280.0f;
 	static constexpr float height = 0.3f * 720.0f;
 	int textMargin = 4.0f;
-	int textPadding = 6.0f;
+	int textPadding = 5.0f;
 	int textWidth;
 	int textHeight;
 	Sprite* background;
@@ -31,10 +31,8 @@ private:
 	Sprite* bot;
 	Sprite* left;
 	Sprite* right;
-	Sprite* textTop;
-	Sprite* textBot;
-	Sprite* textLeft;
-	Sprite* textRight;
+	// Due to pixel errors, can't get top/bot/left/right lines to work properly
+	Sprite* textBorder;
 	Sprite* textBackground;
 	Sprite* text;
 };

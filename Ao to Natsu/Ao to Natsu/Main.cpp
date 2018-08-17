@@ -8,10 +8,12 @@ const auto songStart = Time("00:01:746").ms;
 const auto songEnd = Time("04:28:338").ms;
 void setupBackground() {
 	// Gets rid of beatmap background
-	Storyboard::CreateSprite("aotonatsubg.jpg", Vector2::Zero, Layer::Background);
+	auto const original = Storyboard::CreateSprite("aotonatsubg.jpg", Vector2::Zero, Layer::Background);
 	// Solid color background
 	auto const background = Storyboard::CreateSprite("!", Vector2::Zero, Layer::Background);
-	background->ScaleVector(0, Time("04:30:507").ms, Vector2::ScreenSize, Vector2::ScreenSize, Easing::Linear, 0);
+	background->ScaleVector(songStart, songStart, Vector2::ScreenSize, Vector2::ScreenSize, Easing::Linear, 0);
+	background->Fade(songStart - fadeTime, songStart, 0, 1);
+	background->Fade(songEnd, songEnd + fadeTime, 1, 0);
 	// Side bars
 	const auto borderPosition = 250;
 	const auto borderScale = Vector2(1, Vector2::ScreenSize.y);
@@ -25,7 +27,7 @@ void setupBackground() {
 	rightBorder->Fade(songEnd, songEnd + fadeTime, 1, 0);
 }
 std::vector<int> setupImages() {
-	auto images = std::vector<int>(52);
+	auto images = std::vector<int>(49);
 	for (int i = 0; i < images.size(); ++i) {
 		images[i] = i;
 	}
@@ -44,47 +46,47 @@ std::vector<Frame> setupFrames() {
 		Frame(getRandomImage(images), "b", Time("00:06:935").ms),
 		Frame(getRandomImage(images), "c", Time("00:12:124").ms),
 		Frame(getRandomImage(images), "d", Time("00:17:313").ms),
-		Frame(getRandomImage(images), "", Time("00:22:502").ms),
-		Frame(getRandomImage(images), "", Time("00:27:691").ms),
-		Frame(getRandomImage(images), "", Time("00:32:881").ms),
-		Frame(getRandomImage(images), "", Time("00:38:070").ms),
-		Frame(getRandomImage(images), "", Time("00:46:501").ms),
-		Frame(getRandomImage(images), "", Time("00:51:365").ms),
-		Frame(getRandomImage(images), "", Time("00:56:555").ms),
-		Frame(getRandomImage(images), "", Time("01:02:068").ms),
-		Frame(getRandomImage(images), "", Time("01:07:257").ms),
+		Frame(getRandomImage(images), "e", Time("00:22:502").ms),
+		Frame(getRandomImage(images), "f", Time("00:27:691").ms),
+		Frame(getRandomImage(images), "g", Time("00:32:881").ms),
+		Frame(getRandomImage(images), "h", Time("00:38:070").ms),
+		Frame(getRandomImage(images), "i", Time("00:46:501").ms),
+		Frame(getRandomImage(images), "j", Time("00:51:365").ms),
+		Frame(getRandomImage(images), "k", Time("00:56:555").ms),
+		Frame(getRandomImage(images), "l", Time("01:02:068").ms),
+		Frame(getRandomImage(images), "m", Time("01:07:257").ms),
 		Frame(getRandomImage(images), "", Time("01:12:446").ms),
 		Frame(getRandomImage(images), "", Time("01:17:636").ms),
-		Frame(getRandomImage(images), "", Time("01:22:825").ms),
-		Frame(getRandomImage(images), "", Time("01:28:014").ms),
-		Frame(getRandomImage(images), "", Time("01:33:203").ms),
-		Frame(getRandomImage(images), "", Time("01:38:392").ms),
-		Frame(getRandomImage(images), "", Time("01:43:582").ms),
-		Frame(getRandomImage(images), "", Time("01:48:771").ms),
-		Frame(getRandomImage(images), "", Time("01:53:960").ms),
-		Frame(getRandomImage(images), "", Time("01:59:149").ms),
-		Frame(getRandomImage(images), "", Time("02:08:230").ms),
-		Frame(getRandomImage(images), "", Time("02:13:419").ms),
-		Frame(getRandomImage(images), "", Time("02:18:609").ms),
-		Frame(getRandomImage(images), "", Time("02:23:798").ms),
+		Frame(getRandomImage(images), "n", Time("01:22:825").ms),
+		Frame(getRandomImage(images), "o", Time("01:28:014").ms),
+		Frame(getRandomImage(images), "p", Time("01:33:203").ms),
+		Frame(getRandomImage(images), "q", Time("01:38:392").ms),
+		Frame(getRandomImage(images), "r", Time("01:43:582").ms),
+		Frame(getRandomImage(images), "s", Time("01:48:771").ms),
+		Frame(getRandomImage(images), "t", Time("01:53:960").ms),
+		Frame(getRandomImage(images), "u", Time("01:59:149").ms),
+		Frame(getRandomImage(images), "v", Time("02:08:230").ms),
+		Frame(getRandomImage(images), "w", Time("02:13:419").ms),
+		Frame(getRandomImage(images), "x", Time("02:18:609").ms),
+		Frame(getRandomImage(images), "y", Time("02:23:798").ms),
 		Frame(getRandomImage(images), "", Time("02:27:690").ms),
-		Frame(getRandomImage(images), "", Time("02:31:582").ms),
-		Frame(getRandomImage(images), "", Time("02:38:068").ms),
-		Frame(getRandomImage(images), "", Time("02:43:257").ms),
-		Frame(getRandomImage(images), "", Time("02:48:446").ms),
-		Frame(getRandomImage(images), "", Time("02:53:636").ms),
-		Frame(getRandomImage(images), "", Time("02:58:825").ms),
-		Frame(getRandomImage(images), "", Time("03:04:014").ms),
-		Frame(getRandomImage(images), "", Time("03:11:798").ms),
-		Frame(getRandomImage(images), "", Time("03:16:987").ms),
-		Frame(getRandomImage(images), "", Time("03:22:176").ms),
-		Frame(getRandomImage(images), "", Time("03:27:365").ms),
-		Frame(getRandomImage(images), "", Time("03:32:555").ms),
-		Frame(getRandomImage(images), "", Time("03:37:744").ms),
-		Frame(getRandomImage(images), "", Time("03:42:933").ms),
-		Frame(getRandomImage(images), "", Time("03:48:122").ms),
-		Frame(getRandomImage(images), "", Time("03:53:311").ms),
-		Frame(getRandomImage(images), "", Time("03:58:500").ms),
+		Frame(getRandomImage(images), "z", Time("02:31:582").ms),
+		Frame(getRandomImage(images), "aa", Time("02:38:068").ms),
+		Frame(getRandomImage(images), "ab", Time("02:43:257").ms),
+		Frame(getRandomImage(images), "ac", Time("02:48:446").ms),
+		Frame(getRandomImage(images), "ad", Time("02:53:636").ms),
+		Frame(getRandomImage(images), "ae", Time("02:58:825").ms),
+		Frame(getRandomImage(images), "af", Time("03:04:014").ms),
+		Frame(getRandomImage(images), "ag", Time("03:11:798").ms),
+		Frame(getRandomImage(images), "ah", Time("03:16:987").ms),
+		Frame(getRandomImage(images), "ai", Time("03:22:176").ms),
+		Frame(getRandomImage(images), "aj", Time("03:27:365").ms),
+		Frame(getRandomImage(images), "ak", Time("03:32:555").ms),
+		Frame(getRandomImage(images), "al", Time("03:37:744").ms),
+		Frame(getRandomImage(images), "am", Time("03:42:933").ms),
+		Frame(getRandomImage(images), "an", Time("03:48:122").ms),
+		Frame(getRandomImage(images), "ao", Time("03:53:311").ms),
+		Frame(getRandomImage(images), "ap", Time("03:58:500").ms),
 		Frame(getRandomImage(images), "", Time("04:03:690").ms),
 		Frame(getRandomImage(images), "", Time("04:08:879").ms),
 		Frame(getRandomImage(images), "", Time("04:14:068").ms),
