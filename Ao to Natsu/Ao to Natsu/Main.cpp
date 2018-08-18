@@ -4,27 +4,22 @@
 #include <algorithm>
 #include <vector>
 const auto fadeTime = 324;
+const auto flashTime = 162;
 const auto songStart = Time("00:01:746").ms;
 const auto songEnd = Time("04:28:338").ms;
-void setupBackground() {
-	// Gets rid of beatmap background
-	auto const original = Storyboard::CreateSprite("aotonatsubg.jpg", Vector2::Zero, Layer::Background);
-	// Solid color background
-	auto const background = Storyboard::CreateSprite("!", Vector2::Zero, Layer::Background);
-	background->ScaleVector(songStart, songStart, Vector2::ScreenSize, Vector2::ScreenSize, Easing::Linear, 0);
-	background->Fade(songStart - fadeTime, songStart, 0, 1);
-	background->Fade(songEnd, songEnd + fadeTime, 1, 0);
-	// Side bars
-	const auto borderPosition = 250;
-	const auto borderScale = Vector2(1, Vector2::ScreenSize.y);
-	auto const leftBorder = Storyboard::CreateSprite("@", Vector2(-borderPosition, 0), Layer::Background);
-	leftBorder->Fade(songStart - fadeTime, songStart, 0, 1);
-	leftBorder->ScaleVector(0, 0, borderScale, borderScale);
-	leftBorder->Fade(songEnd, songEnd + fadeTime, 1, 0);
-	auto const rightBorder = Storyboard::CreateSprite("@", Vector2(borderPosition, 0), Layer::Background);
-	rightBorder->Fade(songStart - fadeTime, songStart, 0, 1);
-	rightBorder->ScaleVector(0, 0, borderScale, borderScale);
-	rightBorder->Fade(songEnd, songEnd + fadeTime, 1, 0);
+
+std::string getRandomImage(std::vector<int>& images);
+std::vector<int> setupImages();
+std::vector<Frame> setupFrames();
+void drawBackground();
+void drawFlashes();
+void flashScreen(Sprite* const flash, const int time);
+void positionFrames(const std::vector<Frame>& frames);
+
+std::string getRandomImage(std::vector<int>& images) {
+	const auto value = images.back();
+	images.pop_back();
+	return std::to_string(value);
 }
 std::vector<int> setupImages() {
 	auto images = std::vector<int>(49);
@@ -33,11 +28,6 @@ std::vector<int> setupImages() {
 	}
 	std::random_shuffle(images.begin(), images.end());
 	return images;
-}
-std::string getRandomImage(std::vector<int>& images) {
-	const auto value = images.back();
-	images.pop_back();
-	return std::to_string(value);
 }
 std::vector<Frame> setupFrames() {
 	auto images = setupImages();
@@ -94,6 +84,38 @@ std::vector<Frame> setupFrames() {
 	});
 	return frames;
 }
+void drawBackground() {
+	// Gets rid of beatmap background
+	auto const original = Storyboard::CreateSprite("aotonatsubg.jpg", Vector2::Zero, Layer::Background);
+	// Solid color background
+	auto const background = Storyboard::CreateSprite("!", Vector2::Zero, Layer::Background);
+	background->ScaleVector(songStart, songStart, Vector2::ScreenSize, Vector2::ScreenSize);
+	background->Fade(songStart - fadeTime, songStart, 0, 1);
+	background->Fade(songEnd, songEnd + fadeTime, 1, 0);
+	// Side bars
+	const auto borderPosition = 250;
+	const auto borderScale = Vector2(1, Vector2::ScreenSize.y);
+	auto const leftBorder = Storyboard::CreateSprite("@", Vector2(-borderPosition, 0), Layer::Background);
+	leftBorder->Fade(songStart - fadeTime, songStart, 0, 1);
+	leftBorder->ScaleVector(0, 0, borderScale, borderScale);
+	leftBorder->Fade(songEnd, songEnd + fadeTime, 1, 0);
+	auto const rightBorder = Storyboard::CreateSprite("@", Vector2(borderPosition, 0), Layer::Background);
+	rightBorder->Fade(songStart - fadeTime, songStart, 0, 1);
+	rightBorder->ScaleVector(0, 0, borderScale, borderScale);
+	rightBorder->Fade(songEnd, songEnd + fadeTime, 1, 0);
+}
+void drawFlashes() {
+	auto const flash = Storyboard::CreateSprite("!");
+	flash->ScaleVector(songStart, songStart, Vector2::ScreenSize, Vector2::ScreenSize);
+	flashScreen(flash, Time("00:46:502").ms);
+	flashScreen(flash, Time("02:08:230").ms);
+	flashScreen(flash, Time("03:06:609").ms);
+	flashScreen(flash, Time("03:32:555").ms);
+}
+void flashScreen(Sprite* const flash, const int time) {
+	flash->Fade(time - flashTime, time, 0, 1, Easing::SineOut);
+	flash->Fade(time, time + fadeTime * 2, 1, 0, Easing::SineIn);
+}
 void positionFrames(const std::vector<Frame>& frames) {
 	const auto yOffset = Vector2::ScreenSize.y * 0.5f;
 	const auto endPosition = Vector2(0, yOffset * 2);
@@ -141,10 +163,12 @@ void positionFrames(const std::vector<Frame>& frames) {
 	frames[frames.size() - 2].fade(songEnd, songEnd + fadeTime, 1, 0);
 
 }
+
 int main() {
-	setupBackground();
+	drawBackground();
 	const auto frames = setupFrames();
 	positionFrames(frames);
+	drawFlashes();
 	Storyboard::Write(R"(X:\osu!\Songs\824592 Mrs GREEN APPLE - Ao to Natsu\Mrs. GREEN APPLE - Ao to Natsu (Haruto).osb)");
 	return 0;
 }

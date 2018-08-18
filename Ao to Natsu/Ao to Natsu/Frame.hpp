@@ -22,8 +22,8 @@ private:
 	static constexpr float textScaleFactor = 0.2f;
 	static constexpr float width = 0.3f * 1280.0f;
 	static constexpr float height = 0.3f * 720.0f;
-	int textMargin = 4.0f;
-	int textPadding = 5.0f;
+	static const int textMargin = 4;
+	static const int textPadding = 5;
 	int textWidth;
 	int textHeight;
 	Sprite* background;
