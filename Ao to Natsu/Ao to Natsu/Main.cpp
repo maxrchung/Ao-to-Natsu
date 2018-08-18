@@ -55,6 +55,7 @@ std::vector<Frame> setupFrames() {
 		Frame(getRandomImage(images), "s", Time("01:48:771").ms),
 		Frame(getRandomImage(images), "t", Time("01:53:960").ms),
 		Frame(getRandomImage(images), "u", Time("01:59:149").ms),
+		Frame("49", "", Time("02:06:933").ms),
 		Frame(getRandomImage(images), "v", Time("02:08:230").ms),
 		Frame(getRandomImage(images), "w", Time("02:13:419").ms),
 		Frame(getRandomImage(images), "x", Time("02:18:609").ms),
@@ -109,7 +110,6 @@ void drawFlashes() {
 	flash->ScaleVector(songStart, songStart, Vector2::ScreenSize, Vector2::ScreenSize);
 	flashScreen(flash, Time("00:46:502").ms);
 	flashScreen(flash, Time("02:08:230").ms);
-	flashScreen(flash, Time("03:06:609").ms);
 	flashScreen(flash, Time("03:32:555").ms);
 }
 void flashScreen(Sprite* const flash, const int time) {
