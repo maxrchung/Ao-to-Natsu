@@ -6,7 +6,7 @@
 const auto fadeTime = 324;
 const auto flashTime = 162;
 const auto songStart = Time("00:01:746").ms;
-const auto songEnd = Time("04:28:338").ms;
+const auto songEnd = Time("04:28:987").ms;
 
 std::string getRandomImage(std::vector<int>& images);
 std::vector<int> setupImages();
@@ -82,6 +82,7 @@ std::vector<Frame> setupFrames() {
 		Frame(getRandomImage(images), "", Time("04:08:879").ms),
 		Frame(getRandomImage(images), "", Time("04:14:068").ms),
 		Frame(getRandomImage(images), "", Time("04:19:257").ms),
+		Frame("50", "aq", Time("04:23:149").ms),
 	});
 	return frames;
 }
